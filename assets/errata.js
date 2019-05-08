@@ -25,10 +25,12 @@ $(document).ready(function() {
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
-            cache: 'no-cache', 
+            cache: 'no-cache', credentials: "same-origin",
             method: 'POST', redirect: 'follow' })
         .then(function(response) {
-            if (response.ok) {console.log(response.text()); }
+            if (response.ok) {return response.text(); }
+        }).then(function(res_text) {
+            console.log(res_text);
         }).catch(function(error) {
             console.log(error);
         });
