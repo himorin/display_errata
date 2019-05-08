@@ -28,7 +28,7 @@ $(document).ready(function() {
             cache: 'no-cache', 
             method: 'POST', redirect: 'follow' })
         .then(function(response) {
-            if (response.ok) {console.log(response.text(); }
+            if (response.ok) {console.log(response.text()); }
         }).catch(function(error) {
             console.log(error);
         });
