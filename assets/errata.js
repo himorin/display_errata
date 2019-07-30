@@ -43,10 +43,27 @@ function displayListRecs (config) {
   insert_sections.innerHTML = '';
   config.forEach(function(item) {
     var content = '';
-    content += '<section id="section_' + item.name.replace(/ /g, '_') + '">';
+    var label = item.name.replace(/ /g, '_');
+    content += '<section id="section_' + label + '">';
+    content += '<h1>Open Errata on the "' + (item.full ? item.full : item.name) + '" Recommendation</h1>';
+    content += '<dl>';
+    content += '<dt>Latest Published Version:</dt><dd><a href="' + item.rec + '">' + item.rec + '</a></dd>';
+    content += '<dt>Editor’s draft:</dt><dd><a href="' + item.draft + '">' + item.draft + '</a></dd>';
+    content += '<dd>' + item.latest + '</dd>';
+    content += '</dl>';
+    content += '<section id="editorial_' + label + '"><h2>Editorial Errata</h2></section>';
+    content += '<section id="substantial_' + label + '"><h2>Substantial Errata</h2></section>';
     content += '</section>';
     insert_sections.innerHTML += content;
   });
+  // add others
+  var content = '';
+  content += '<section id="section_others">';
+  content += '<h1>Other Errata, Not Assigned to a Specific Document</h1>';
+  content += '<section id="editorial_others"><h2>Editorial Errata</h2></section>';
+  content += '<section id="substantial_others"><h2>Substantial Errata</h2></section>';
+  content += '</section>';
+  insert_sections.innerHTML += content;
 }
 
 window.addEventListener('load', function(event) {
