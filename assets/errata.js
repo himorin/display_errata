@@ -44,7 +44,6 @@ $(document).ready(function() {
             if (response.ok) {return response.text(); }
         }).then(function(res_text) {
             document.getElementById(target_id).innerHTML = res_text;
-            console.log(res_text);
         }).catch(function(error) {
             document.getElementById(target_id).innerHTML = '<pre>' + body_text + '</pre>';
             console.log(error);
@@ -78,8 +77,9 @@ $(document).ready(function() {
         })
 
         if( summary !== undefined ) {
-            summary_text = summary.body.substr("Summary:".length)
-            div.append("<p><span class='what'><a href='" + summary.html_url + "'>Erratum summary:</a></span> " + summary_text + "</p>");
+            div.append("<p><span class='what'><a href='" + summary.html_url + "'>Erratum summary:</a></span></p><div id='issue_summary_" + issue.number + "'></div>");
+            convert_md('issue_summary_' + issue.number, 
+                summary.body.substr("Summary:".length));
         }
     }
 
