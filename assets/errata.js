@@ -40,6 +40,18 @@ function switchApiHead(url) {
     return url.replace(github_api_orig, github_api_head);
 }
 
+// quick hack for proxy query issue
+function updateOverview(name, updated_at) {
+  if (! data_issues[name]) { data_issues[name] = {}; }
+  if (! data_issues[name].size) { data_issues[name].size = 0; }
+  if (! data_issues[name].latest_change) {data_issues[name].latest_change = updated_at; }
+  data_issues[name].size += 1;
+  data_issues[name].latest_change = 0;
+
+  document.getElementById('number').innerText = data_issues[name].size;
+  document.getElementById('date').innerText = data_issues[name].latest_change.format('dddd, MMMM Do YYYY');
+}
+
 // construct display from config
 function displayListRecs (config) {
   var insert_sections = document.getElementById('rec_sections');
@@ -153,20 +165,16 @@ var convert_md = async function(target_repo, target_id, body_text) {
 function getIssuesPerRepo(name) {
   var url_api = github_api_head + name + def_search_errata;
   data_count = {};
+  // quick hack initialization
+  document.getElementById('number').innerText = '0';
+  document.getElementById('date').innerText = 'N/A';
+  document.getElementById('errata_link').innerHTML = '<a href="https://github.com/"' + name + '/labels/Errata">https://github.com/' + name + '/labels/Errata</a>';
   fetch(url_api)
   .then(function(response) {
     if (response.ok) {return response.json(); }
     throw Error('Errata issue list failed on ' + name + ' / ' + response.status);
   }).then(function(issues) {
     data_issues[name] = {};
-    if (issues.lengt > 0) {
-      data_issues[name].latest_change = moment.max(_.map(issues, function(item) { return moment(item.updated_at) }));
-      document.getElementById('date').innerText = data_issues[name].latest_change.format('dddd, MMMM Do YYYY');
-    } else {
-      document.getElementById('date').innerText = 'N/A';
-    }
-    document.getElementById('number').innerText = issues.length;
-    document.getElementById('errata_link').innerHTML = '<a href="https://github.com/"' + name + '/labels/Errata">https://github.com/' + name + '/labels/Errata</a>';
     issues.forEach(function(item) {
       fetch(switchApiHead(item.comments_url))
       .then(function(response) {
@@ -204,6 +212,7 @@ function render_issue(name, issue, comments) {
   data_count['number_' + category + target] += 1;
   document.getElementById(category + target).innerHTML += output;
   // not so harmful for performance...
+  updateOverview(name, issue.updated_at);
   Object.keys(data_count).forEach(function(key) {
     document.getElementById(key).innerText = '(' + data_count[key] + ')';
   });
