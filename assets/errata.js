@@ -15,10 +15,15 @@ that the active issues are displayed in different sections, depending on the pre
 through some data-* attributes on the elements.
 */
 
+// to use api cache, set equivallent as 'https://api.github.com/repos/'
+const github_api_head = 'https://ch03.himor.in/w3c/github-cache/';
+// to use api cache for markdown converter, set full url (temporary before building integrated cache
+const github_api_markdown = 'https://api.github.com/markdown';
+
 $(document).ready(function() {
     // convert markdown format text to html via markdown API
     var convert_md = async function(body_text) {
-        fetch("https://api.github.com/markdown", {
+        fetch(github_api_markdown, {
             body: JSON.stringify({
                  "text": body_text, "mode": "gfm", "context": "w3c/csswg"
             }),
@@ -102,7 +107,7 @@ $(document).ready(function() {
 
     dataset = $('head').prop('dataset');
     if (dataset.githubrepo !== undefined) {
-        var url_api    = "https://api.github.com/repos/" + dataset.githubrepo + "/issues?state=open&labels=Errata";
+        var url_api    = github_api_head + dataset.githubrepo + "/issues?state=open&labels=Errata";
         var url_issues = "https://github.com/" + dataset.githubrepo + "/labels/Errata";
         $.getJSON(url_api, function (allIssues) {
             if( allIssues.length > 0 ) {
