@@ -17,8 +17,15 @@ through some data-* attributes on the elements.
 
 // to use api cache, set equivallent as 'https://api.github.com/repos/'
 const github_api_head = 'https://ch03.himor.in/w3c/github-cache/';
+const github_api_orig = 'https://api.github.com/repos/';
 // to use api cache for markdown converter, set full url (temporary before building integrated cache
 const github_api_markdown = 'https://api.github.com/markdown';
+
+// convert from 'https://api.github.com/repos/' to github_api_head
+// better to be performed by integrated cache server
+function switchApiHead(url) {
+    return url.replace(github_api_orig, github_api_head);
+}
 
 $(document).ready(function() {
     // convert markdown format text to html via markdown API
@@ -121,7 +128,7 @@ $(document).ready(function() {
             $("span#number").append(allIssues.length);
             $("span#errata_link").append("<a href='" + url_issues + "'>" + url_issues + "</a>");
             $.each(allIssues, function (i, issue) {
-                $.getJSON(issue.comments_url, function(comments) {
+                $.getJSON(switchApiHead(issue.comments_url), function(comments) {
                     render_issue(issue, comments);
                 });
             });
