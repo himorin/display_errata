@@ -30,6 +30,8 @@ const target_repo = "w3c/cswv";
 
 // defs of global variables
 let data_config; // from site_config
+let data_issues = {}; // acquired errata issue listfrom api
+const def_search_errata = "/issues?state=open&labels=Errata";
 
 // convert from 'https://api.github.com/repos/' to github_api_head
 // better to be performed by integrated cache server
@@ -55,7 +57,7 @@ function displayListRecs (config) {
     content += '<dl>';
     content += '<dt>Latest Published Version:</dt><dd><a href="' + item.rec + '">' + item.rec + '</a></dd>';
     content += '<dt>Editor’s draft:</dt><dd><a href="' + item.draft + '">' + item.draft + '</a></dd>';
-    content += '<dd>' + item.latest + '</dd>';
+    content += '<dt>Latest Publication Date:</dt><dd>' + item.latest + '</dd>';
     content += '</dl>';
     content += '<section id="editorial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.1">' + insert_id + '.1 </span>Editorial Errata</h2></section>';
     content += '<section id="substantial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.2">' + insert_id + '.2 </span>Substantial Errata</h2></section>';
@@ -130,7 +132,42 @@ var convert_md = async function(target_id, body_text) {
     document.getElementById(target_id).innerHTML = '<pre>' + body_text + '</pre>';
     console.log(error);
   });
-}
+};
+
+function getIssuesPerRepo(name) {
+  var url_api = github_api_head + name + def_search_errata;
+  fetch(url_api)
+  .then(function(response) {
+    if (response.ok) {return response.json(); }
+    throw Error('Errata issue list failed on ' + name + ' / ' + response.status);
+  }).then(function(issues) {
+    data_issues[name] = {};
+    if (issues.lengt > 0) {
+      data_issues[name].latest_change = moment.max(_.map(issues, function(item) { return moment(item.updated_at) }));
+      document.getElementById('date').innerText = data_issues[name].latest_change.format('dddd, MMMM Do YYYY');
+    } else {
+      document.getElementById('date').innerText = 'N/A';
+    }
+    document.getElementById('number').innerText = issues.length;
+    document.getElementById('errata_link').innerHTML = '<a href="https://github.com/"' + name + '/labels/Errata">https://github.com/' + name + '/labels/Errata</a>';
+    issues.forEach(function(item) {
+      fetch(switchApiHead(item.comments_url))
+      .then(function(response) {
+        if (response.ok) {return response.json(); }
+        throw Error('Errata comment failed on ' + item.comments_url + ' / ' + response.status);
+      }).then(function(comments) {
+        render_issue(item, comments);
+      }).catch(function(error) {
+        console.log('Error on loading comment for: ' + error.message);
+      });
+    });
+  }).catch(function(error) {
+    console.log('Error found on loading errata: ' + error.message);
+  });
+};
+
+function render_issue(issue, comments) {
+};
 
 /*
 $(document).ready(function() {
@@ -201,28 +238,6 @@ $(document).ready(function() {
         }
     }
 
-    dataset = $('head').prop('dataset');
-    if (dataset.githubrepo !== undefined) {
-        var url_api    = github_api_head + dataset.githubrepo + "/issues?state=open&labels=Errata";
-        var url_issues = "https://github.com/" + dataset.githubrepo + "/labels/Errata";
-        $.getJSON(url_api, function (allIssues) {
-            if( allIssues.length > 0 ) {
-                var latest_change = moment.max(_.map(allIssues, function(item) {
-                    return moment(item.updated_at)
-                }));
-                $("span#date").append(latest_change.format("dddd, MMMM Do YYYY"));
-            } else {
-                $("span#date").append("N/A");
-            }
-            $("span#number").append(allIssues.length);
-            $("span#errata_link").append("<a href='" + url_issues + "'>" + url_issues + "</a>");
-            $.each(allIssues, function (i, issue) {
-                $.getJSON(switchApiHead(issue.comments_url), function(comments) {
-                    render_issue(issue, comments);
-                });
-            });
-        });
-    }
 });
 */
 
