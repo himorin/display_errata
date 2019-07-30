@@ -19,7 +19,8 @@ through some data-* attributes on the elements.
 const github_api_head = 'https://ch03.himor.in/w3c/github-cache/';
 const github_api_orig = 'https://api.github.com/repos/';
 // to use api cache for markdown converter, set full url (temporary before building integrated cache
-const github_api_markdown = 'https://api.github.com/markdown';
+//const github_api_markdown = 'https://api.github.com/markdown';
+const github_api_markdown = 'https://ch03.himor.in/w3c/github-cache/w3c/markdown';
 
 // convert from 'https://api.github.com/repos/' to github_api_head
 // better to be performed by integrated cache server
@@ -29,7 +30,7 @@ function switchApiHead(url) {
 
 $(document).ready(function() {
     // convert markdown format text to html via markdown API
-    var convert_md = async function(body_text) {
+    var convert_md = async function(target_id, body_text) {
         fetch(github_api_markdown, {
             body: JSON.stringify({
                  "text": body_text, "mode": "gfm", "context": "w3c/csswg"
@@ -42,8 +43,10 @@ $(document).ready(function() {
         .then(function(response) {
             if (response.ok) {return response.text(); }
         }).then(function(res_text) {
+            document.getElementById(target_id).innerHTML = res_text;
             console.log(res_text);
         }).catch(function(error) {
+            document.getElementById(target_id).innerHTML = '<pre>' + body_text + '</pre>';
             console.log(error);
         });
     }
@@ -63,8 +66,8 @@ $(document).ready(function() {
                    "<span class='what'>Raised by:</span><a href='" + issue.user.url + "'>@" + issue.user.login + "</a><br>"    +
                    "<span class='what'>Extra Labels:</span> " + display_labels + "</a><br>"                                    +
                    "</p>");
-        div.append("<p><span class='what'><a href='" + issue.html_url + "'>Initial description:</a></span> " + issue.body + "</p>");
-        convert_md(issue.body);
+        div.append("<p><span class='what'><a href='" + issue.html_url + "'>Initial description:</a></span></p><div id='issue_body_" + issue.number + "'></div>");
+        convert_md('issue_body_' + issue.number, issue.body);
 
         // See if a summary has been added to the comment.
         var summary = undefined;
