@@ -26,11 +26,12 @@ const github_api_orig = 'https://api.github.com/repos/';
 const github_api_markdown = 'https://ch03.himor.in/w3c/github-cache/w3c/markdown';
 
 // temporary
-const target_repo = "w3c/cswv";
+const target_repo = "w3c/csvw";
 
 // defs of global variables
 let data_config; // from site_config
 let data_issues = {}; // acquired errata issue listfrom api
+let data_count = {}; // count of errata
 const def_search_errata = "/issues?state=open&labels=Errata";
 
 // convert from 'https://api.github.com/repos/' to github_api_head
@@ -68,8 +69,8 @@ function displayListRecs (config) {
     content += '<li>';
     content += '<span class="tocnumber tocvisible">' + insert_id + '. </span><a href="#id_' + insert_id + '">Open Errata on the "' + (item.full ? item.full : item.name) + '" Recommendation</a>';
     content += '<ul class="toc toclevel2">';
-    content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a></li>';
-    content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a></li>';
+    content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a> <span id="number_editorial_' + label + '"></span></li>';
+    content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a> <span id="number_substantial_' + label + '"></span></li>';
     content += '</ul></li>';
     insert_toc.innerHTML += content;
   });
@@ -90,10 +91,24 @@ function displayListRecs (config) {
   content += '<li>';
   content += '<span class="tocnumber tocvisible">' + insert_id + '. </span><a href="#id_' + insert_id + '">Open Errata, Not Assigned to a Specific Document</a>';
   content += '<ul class="toc toclevel2">';
-  content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a></li>';
-  content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a></li>';
+  content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a> <span id="number_editorial_others"></span></li>';
+  content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a> <span id="number_substantial_others"></span></li>';
   content += '</ul></li>';
   insert_toc.innerHTML += content;
+}
+
+// find matching target rec document label from labels in repo
+// repo = repo name, labels = /issue/XXX?labels
+function findTargetLabel(repo, labels) {
+  if (! data_config[repo]) {return ''; }
+  if (labels.length < 1) {return ''; }
+  var match_label = '';
+  labels.forEach(function(item) {
+    data_config[repo].forEach(function(repo_label) {
+      if (repo_label.name == item.name) {match_label = item.name; }
+    });
+  });
+  return match_label;
 }
 
 window.addEventListener('load', function(event) {
@@ -106,6 +121,7 @@ window.addEventListener('load', function(event) {
     data_config = json;
     if (data_config[target_repo]) {
       displayListRecs(data_config[target_repo]);
+      getIssuesPerRepo(target_repo);
     } else {
       throw Error('Defined target configuration not found: ' + target_repo);
     }
@@ -114,10 +130,10 @@ window.addEventListener('load', function(event) {
   });
 });
 
-var convert_md = async function(target_id, body_text) {
+var convert_md = async function(target_repo, target_id, body_text) {
   fetch(github_api_markdown, {
     body: JSON.stringify({
-      "text": body_text, "mode": "gfm", "context": dataset.githubrepo
+      "text": body_text, "mode": "gfm", "context": target_repo
     }),
     headers: new Headers({
       'Content-Type': 'application/json'
@@ -136,6 +152,7 @@ var convert_md = async function(target_id, body_text) {
 
 function getIssuesPerRepo(name) {
   var url_api = github_api_head + name + def_search_errata;
+  data_count = {};
   fetch(url_api)
   .then(function(response) {
     if (response.ok) {return response.json(); }
@@ -156,7 +173,7 @@ function getIssuesPerRepo(name) {
         if (response.ok) {return response.json(); }
         throw Error('Errata comment failed on ' + item.comments_url + ' / ' + response.status);
       }).then(function(comments) {
-        render_issue(item, comments);
+        render_issue(name, item, comments);
       }).catch(function(error) {
         console.log('Error on loading comment for: ' + error.message);
       });
@@ -166,78 +183,56 @@ function getIssuesPerRepo(name) {
   });
 };
 
-function render_issue(issue, comments) {
+// render single issue, issue = /issues/XXX, comments = /issues/XXX/comments
+function render_issue(name, issue, comments) {
+  var target = findTargetLabel(name, issue.labels).replace(/ /g, '_');
+  if (target == '') {target = 'others'; }
+  var category = 'substantial_';
+  var labels = [];
+  var to_disp = false;
+  issue.labels.forEach(function(label) {
+    if (label.name == 'Editorial') {category = 'editorial_'; }
+    if (label.name == 'Errata') {to_disp = true; }
+    labels.push(label.name);
+  });
+  issue.label_list = labels.join(', ');
+  if (! to_disp) {return; }
+  var output = issueToHtml(issue, comments);
+  if (! data_count['number_' + category + target]) {
+    data_count['number_' + category + target] = 0;
+  }
+  data_count['number_' + category + target] += 1;
+  document.getElementById(category + target).innerHTML += output;
+  // not so harmful for performance...
+  Object.keys(data_count).forEach(function(key) {
+    document.getElementById(key).innerText = '(' + data_count[key] + ')';
+  });
 };
 
-/*
-$(document).ready(function() {
-    // convert markdown format text to html via markdown API
-    var display_issue = function(node, issue, comments, labels) {
-        var  display_labels = _.reduce(labels, function(memo, label, index) {
-            if( label === "Errata" )
-                return memo
-            else if( memo === "" )
-                return label
-            else
-                return memo + ", " + label
-        }, "");
-        var div = $("<div class='issue'></div>");
-        node.append(div);
-        div.append("<h3>\"" + issue.title + "\"</h3>");
-        div.append("<p><span class='what'>Issue number:</span> <a href='" + issue.html_url + "'>#" + issue.number + "</a><br>" +
-                   "<span class='what'>Raised by:</span><a href='" + issue.user.url + "'>@" + issue.user.login + "</a><br>"    +
-                   "<span class='what'>Extra Labels:</span> " + display_labels + "</a><br>"                                    +
-                   "</p>");
-        div.append("<p><span class='what'><a href='" + issue.html_url + "'>Initial description:</a></span></p><div id='issue_body_" + issue.number + "'></div>");
-        convert_md('issue_body_' + issue.number, issue.body);
-
-        // See if a summary has been added to the comment.
-        var summary = undefined;
-        _.each(comments, function(comment) {
-            if( comment.body.search("^Summary:") !== -1 ) {
-                summary = comment;
-            }
-        })
-
-        if( summary !== undefined ) {
-            div.append("<p><span class='what'><a href='" + summary.html_url + "'>Erratum summary:</a></span></p><div id='issue_summary_" + issue.number + "'></div>");
-            convert_md('issue_summary_' + issue.number, 
-                summary.body.substr("Summary:".length));
-        }
-    }
-
-    var render_issue = function(issue, comments) {
-        var labels = _.map(issue.labels, function (obj) {
-            return obj.name;
-        });
-        var displayed = false;
-        $("main > section").each(function(index) {
-            var dataset = $(this).prop('dataset');
-            if( _.include(labels, dataset.erratalabel) ) {
-                if( _.include(labels, "Editorial") ) {
-                    subsect = $(this).children("section:first-of-type")
-                } else {
-                    subsect = $(this).children("section:last-of-type")
-                }
-                display_issue(subsect, issue, comments, labels)
-                displayed = true;
-            }
-        });
-        if( displayed === false ) {
-            $("main > section").each(function(index) {
-                var dataset = $(this).prop('dataset');
-                if( dataset.nolabel !== undefined ) {
-                    if( _.include(labels, "Editorial") ) {
-                        subsect = $(this).children("section:first-of-type")
-                    } else {
-                        subsect = $(this).children("section:last-of-type")
-                    }
-                    display_issue(subsect, issue, comments, labels)
-                }
-            });
-        }
-    }
-
-});
-*/
+// build html from issue data
+function issueToHtml(issue, comments) {
+  // check summary exists
+  var summary = undefined;
+  comments.forEach(function(comment) {
+    if (comment.body.search('^Summary:') !== -1) {summary = comment; }
+  });
+  // construct display
+  var result = '';
+  result += '<div class="issue">';
+  result += '<h3>"' + issue.title + '"</h3>';
+  result += '<p>';
+  result += '<span class="what">Issue number:</span> <a href="' + issue.html_url + '">#' + issue.number + '</a><br>';
+  result += '<span class="what">Raised by:</span> <a href="' + issue.user.url + '">@' + issue.user.login + '</a><br>';
+  result += '<span class="what">Extra Labels:</span> ' + issue.label_list + '</a><br>';
+  result += '</p>';
+  result += '<p><span class="what"><a href="' + issue.html_url + '">Initial description:</a></span></p><div id="issue_body_' + issue.number + '"></div>';
+  convert_md(target_repo, 'issue_body_' + issue.number, issue.body);
+  if (summary !== undefined) {
+    result += '<p><span class="what"><a href="' + summary.html_url + '">Erratum summary:</a></span></p><div id="issue_summary_' + issue.number + '"></div>';
+    convert_md(target_repo, 'issue_summary_' + issue.number, 
+      summary.body.substr("Summary:".length));
+  }
+  result += '</div>';
+  return result;
+}
 
