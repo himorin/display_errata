@@ -1,0 +1,30 @@
+{
+  "w3c/cswv": [
+    {
+      "name": "Model Document",
+      "rec": "http://www.w3.org/TR/tabular-data-model/",
+      "draft": "http://w3c.github.io/csvw/syntax/",
+      "latest": "2015-12-17"
+    }
+    ,{
+      "name": "Metadata vocabulary document",
+      "rec": "http://www.w3.org/TR/tabular-metadata/",
+      "draft": "http://w3c.github.io/csvw/metadata/",
+      "latest": "2015-12-17"
+    }
+    ,{
+      "name": "CSV to RDF mapping",
+      "full": "Generating RDF from Tabular Data on the Web",
+      "rec": "http://www.w3.org/TR/csv2rdf/",
+      "draft": "http://w3c.github.io/csvw/csv2rdf/",
+      "latest": "2015-12-17"
+    }
+    ,{
+      "name": "CSV to JSON mapping",
+      "full": "Generating JSON from Tabular Data on the Web",
+      "rec": "http://www.w3.org/TR/csv2json/",
+      "draft": "http://w3c.github.io/csvw/csv2json/",
+      "latest": "2015-12-17"
+    }
+  ]
+}

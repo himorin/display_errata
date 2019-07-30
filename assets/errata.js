@@ -15,6 +15,9 @@ that the active issues are displayed in different sections, depending on the pre
 through some data-* attributes on the elements.
 */
 
+// site wide constant values
+const site_config = "config.json";
+
 // to use api cache, set equivallent as 'https://api.github.com/repos/'
 const github_api_head = 'https://ch03.himor.in/w3c/github-cache/';
 const github_api_orig = 'https://api.github.com/repos/';
@@ -22,33 +25,71 @@ const github_api_orig = 'https://api.github.com/repos/';
 //const github_api_markdown = 'https://api.github.com/markdown';
 const github_api_markdown = 'https://ch03.himor.in/w3c/github-cache/w3c/markdown';
 
+// temporary
+const target_repo = "w3c/cswv";
+
+// defs of global variables
+let data_config; // from site_config
+
 // convert from 'https://api.github.com/repos/' to github_api_head
 // better to be performed by integrated cache server
 function switchApiHead(url) {
     return url.replace(github_api_orig, github_api_head);
 }
 
+// construct display from config
+function displayListRecs (config) {
+  var insert_sections = document.getElementById('rec_sections');
+  insert_sections.innerHTML = '';
+  config.forEach(function(item) {
+    var content = '';
+    content += '<section id="section_' + item.name.replace(/ /g, '_') + '">';
+    content += '</section>';
+    insert_sections.innerHTML += content;
+  });
+}
+
+window.addEventListener('load', function(event) {
+  fetch(site_config, {
+    cache: 'no-cache', method: 'GET', redirect: 'follow' })
+  .then(function(response) {
+    if (response.ok) {return response.json(); }
+    throw Error('Returned response for config' + response.status);
+  }).then(function(json) {
+    data_config = json;
+    if (data_config[target_repo]) {
+      displayListRecs(data_config[target_repo]);
+    } else {
+      throw Error('Defined target configuration not found: ' + target_repo);
+    }
+  }).catch(function(error) {
+    console.log('Error found on loading configuration: ' + site_config + ' / ' + error.message);
+  });
+});
+
+var convert_md = async function(target_id, body_text) {
+  fetch(github_api_markdown, {
+    body: JSON.stringify({
+      "text": body_text, "mode": "gfm", "context": dataset.githubrepo
+    }),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    cache: 'no-cache', 
+    method: 'POST', redirect: 'follow' })
+  .then(function(response) {
+    if (response.ok) {return response.text(); }
+  }).then(function(res_text) {
+    document.getElementById(target_id).innerHTML = res_text;
+  }).catch(function(error) {
+    document.getElementById(target_id).innerHTML = '<pre>' + body_text + '</pre>';
+    console.log(error);
+  });
+}
+
+/*
 $(document).ready(function() {
     // convert markdown format text to html via markdown API
-    var convert_md = async function(target_id, body_text) {
-        fetch(github_api_markdown, {
-            body: JSON.stringify({
-                 "text": body_text, "mode": "gfm", "context": dataset.githubrepo
-            }),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            }),
-            cache: 'no-cache', 
-            method: 'POST', redirect: 'follow' })
-        .then(function(response) {
-            if (response.ok) {return response.text(); }
-        }).then(function(res_text) {
-            document.getElementById(target_id).innerHTML = res_text;
-        }).catch(function(error) {
-            document.getElementById(target_id).innerHTML = '<pre>' + body_text + '</pre>';
-            console.log(error);
-        });
-    }
     var display_issue = function(node, issue, comments, labels) {
         var  display_labels = _.reduce(labels, function(memo, label, index) {
             if( label === "Errata" )
@@ -138,3 +179,5 @@ $(document).ready(function() {
         });
     }
 });
+*/
+
