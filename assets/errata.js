@@ -33,12 +33,12 @@ $(document).ready(function() {
     var convert_md = async function(target_id, body_text) {
         fetch(github_api_markdown, {
             body: JSON.stringify({
-                 "text": body_text, "mode": "gfm", "context": "w3c/csswg"
+                 "text": body_text, "mode": "gfm", "context": dataset.githubrepo
             }),
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
-            cache: 'no-cache', credentials: "same-origin",
+            cache: 'no-cache', 
             method: 'POST', redirect: 'follow' })
         .then(function(response) {
             if (response.ok) {return response.text(); }
