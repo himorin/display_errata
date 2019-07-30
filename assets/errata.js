@@ -40,30 +40,58 @@ function switchApiHead(url) {
 // construct display from config
 function displayListRecs (config) {
   var insert_sections = document.getElementById('rec_sections');
+  var insert_toc = document.getElementById('toc_ul');
   insert_sections.innerHTML = '';
+  insert_toc.innerHTML = '';
+  var insert_id = 0;
   config.forEach(function(item) {
-    var content = '';
+    insert_id += 1;
+    var content;
     var label = item.name.replace(/ /g, '_');
+    // main
+    content = '';
     content += '<section id="section_' + label + '">';
-    content += '<h1>Open Errata on the "' + (item.full ? item.full : item.name) + '" Recommendation</h1>';
+    content += '<h1 class="headertoclevel1"><span id="id_' + insert_id + '">' + insert_id + '. </span>Open Errata on the "' + (item.full ? item.full : item.name) + '" Recommendation</h1>';
     content += '<dl>';
     content += '<dt>Latest Published Version:</dt><dd><a href="' + item.rec + '">' + item.rec + '</a></dd>';
     content += '<dt>Editor’s draft:</dt><dd><a href="' + item.draft + '">' + item.draft + '</a></dd>';
     content += '<dd>' + item.latest + '</dd>';
     content += '</dl>';
-    content += '<section id="editorial_' + label + '"><h2>Editorial Errata</h2></section>';
-    content += '<section id="substantial_' + label + '"><h2>Substantial Errata</h2></section>';
+    content += '<section id="editorial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.1">' + insert_id + '.1 </span>Editorial Errata</h2></section>';
+    content += '<section id="substantial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.2">' + insert_id + '.2 </span>Substantial Errata</h2></section>';
     content += '</section>';
     insert_sections.innerHTML += content;
+    // toc
+    content = '';
+    content += '<li>';
+    content += '<span class="tocnumber tocvisible">' + insert_id + '. </span><a href="#id_' + insert_id + '">Open Errata on the "' + (item.full ? item.full : item.name) + '" Recommendation</a>';
+    content += '<ul class="toc toclevel2">';
+    content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a></li>';
+    content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a></li>';
+    content += '</ul></li>';
+    insert_toc.innerHTML += content;
   });
   // add others
-  var content = '';
+  var content;
+  var label = 'others';
+  insert_id += 1;
+  // main
+  content = '';
   content += '<section id="section_others">';
-  content += '<h1>Other Errata, Not Assigned to a Specific Document</h1>';
-  content += '<section id="editorial_others"><h2>Editorial Errata</h2></section>';
-  content += '<section id="substantial_others"><h2>Substantial Errata</h2></section>';
+  content += '<h1 class="headertoclevel1"><span id="id_' + insert_id + '">' + insert_id + '. </span>Other Errata, Not Assigned to a Specific Document</h1>';
+  content += '<section id="editorial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.1">' + insert_id + '.1 </span>Editorial Errata</h2></section>';
+  content += '<section id="substantial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.2">' + insert_id + '.2 </span>Substantial Errata</h2></section>';
   content += '</section>';
   insert_sections.innerHTML += content;
+  // toc
+  content = '';
+  content += '<li>';
+  content += '<span class="tocnumber tocvisible">' + insert_id + '. </span><a href="#id_' + insert_id + '">Open Errata, Not Assigned to a Specific Document</a>';
+  content += '<ul class="toc toclevel2">';
+  content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a></li>';
+  content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a></li>';
+  content += '</ul></li>';
+  insert_toc.innerHTML += content;
 }
 
 window.addEventListener('load', function(event) {
