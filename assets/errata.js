@@ -44,12 +44,15 @@ function switchApiHead(url) {
 function updateOverview(name, updated_at) {
   if (! data_issues[name]) { data_issues[name] = {}; }
   if (! data_issues[name].size) { data_issues[name].size = 0; }
-  if (! data_issues[name].latest_change) {data_issues[name].latest_change = updated_at; }
   data_issues[name].size += 1;
-  data_issues[name].latest_change = 0;
-
+  var cuat = new Date(updated_at);
+  if (! data_issues[name].latest_change) {
+    data_issues[name].latest_change = cuat;
+  } else if (data_issues[name].latest_change < cuat) {
+    data_issues[name].latest_change = cuat;
+  }
   document.getElementById('number').innerText = data_issues[name].size;
-  document.getElementById('date').innerText = data_issues[name].latest_change.format('dddd, MMMM Do YYYY');
+  document.getElementById('date').innerText = data_issues[name].latest_change.toDateString();
 }
 
 // construct display from config
