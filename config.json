@@ -1,7 +1,7 @@
 {
   "w3c/csvw": {
     "wgname": "CSVW",
-    , "recs": [
+    "recs": [
       {
         "name": "Model Document",
         "rec": "http://www.w3.org/TR/tabular-data-model/",
@@ -32,7 +32,7 @@
   }
   , "w3c/web-annotation": {
     "wgname": "Web Annotation",
-    , "recs": [
+    "recs": [
       {
         "name": "model",
         "full": "Web Annotation Data Model",
@@ -72,7 +72,7 @@
   }
   , "w3c/poe": {
     "wgname": "Permissions and Obligations Expression",
-    , "recs": [
+    "recs": [
       {
         "name": "Model",
         "full": "ODRL Information Model",
