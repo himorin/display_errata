@@ -1,83 +1,92 @@
 {
-  "w3c/csvw": [
-    {
-      "name": "Model Document",
-      "rec": "http://www.w3.org/TR/tabular-data-model/",
-      "draft": "http://w3c.github.io/csvw/syntax/",
-      "latest": "2015-12-17"
-    }
-    ,{
-      "name": "Metadata vocabulary document",
-      "rec": "http://www.w3.org/TR/tabular-metadata/",
-      "draft": "http://w3c.github.io/csvw/metadata/",
-      "latest": "2015-12-17"
-    }
-    ,{
-      "name": "CSV to RDF mapping",
-      "full": "Generating RDF from Tabular Data on the Web",
-      "rec": "http://www.w3.org/TR/csv2rdf/",
-      "draft": "http://w3c.github.io/csvw/csv2rdf/",
-      "latest": "2015-12-17"
-    }
-    ,{
-      "name": "CSV to JSON mapping",
-      "full": "Generating JSON from Tabular Data on the Web",
-      "rec": "http://www.w3.org/TR/csv2json/",
-      "draft": "http://w3c.github.io/csvw/csv2json/",
-      "latest": "2015-12-17"
-    }
-  ]
-  , "w3c/web-annotation": [
-    {
-      "name": "model",
-      "full": "Web Annotation Data Model",
-      "rec": "https://www.w3.org/TR/annotation-model/",
-      "draft": "http://w3c.github.io/web-annotation/",
-      "latest": "2017-02-21"
-    }
-    ,{
-      "name": "vocab",
-      "full": "Web Annotation Vocabulary",
-      "rec": "https://www.w3.org/TR/annotation-vocab/",
-      "draft": "http://w3c.github.io/web-annotation/",
-      "latest": "2017-02-21"
-    }
-    ,{
-      "name": "protocol",
-      "full": "Web Annotation Protocol",
-      "rec": "https://www.w3.org/TR/annotation-protocol/",
-      "draft": "http://w3c.github.io/web-annotation/protocol/wd/",
-      "latest": "2017-02-21"
-    }
-    ,{
-      "name": "selector note",
-      "full": "Selectors and States",
-      "rec": "https://www.w3.org/TR/selectors-states/",
-      "draft": "http://w3c.github.io/web-annotation/selectors/",
-      "latest": "2017-02-21"
-    }
-    ,{
-      "name": "html note",
-      "full": "Embedding Web Annotations in HTML",
-      "rec": "https://www.w3.org/TR/annotation-html/",
-      "draft": "http://w3c.github.io/web-annotation/serialization-html-note/",
-      "latest": "2017-02-21"
-    }
-  ]
-  , "w3c/poe": [
-    {
-      "name": "Model",
-      "full": "ODRL Information Model",
-      "rec": "https://www.w3.org/TR/odrl-model/",
-      "draft": "https://w3c.github.io/poe/model/",
-      "latest": "2018-02-15"
-    }
-    ,{
-      "name": "Vocab",
-      "full": "ODRL Vocabulary &amp; Expression",
-      "rec": "https://www.w3.org/TR/odrl-vocab/",
-      "draft": "https://w3c.github.io/poe/vocab/",
-      "latest": "2018-02-15"
-    }
-  ]
+  "w3c/csvw": {
+    "wgname": "CSVW",
+    , "recs": [
+      {
+        "name": "Model Document",
+        "rec": "http://www.w3.org/TR/tabular-data-model/",
+        "draft": "http://w3c.github.io/csvw/syntax/",
+        "latest": "2015-12-17"
+      }
+      ,{
+        "name": "Metadata vocabulary document",
+        "rec": "http://www.w3.org/TR/tabular-metadata/",
+        "draft": "http://w3c.github.io/csvw/metadata/",
+        "latest": "2015-12-17"
+      }
+      ,{
+        "name": "CSV to RDF mapping",
+        "full": "Generating RDF from Tabular Data on the Web",
+        "rec": "http://www.w3.org/TR/csv2rdf/",
+        "draft": "http://w3c.github.io/csvw/csv2rdf/",
+        "latest": "2015-12-17"
+      }
+      ,{
+        "name": "CSV to JSON mapping",
+        "full": "Generating JSON from Tabular Data on the Web",
+        "rec": "http://www.w3.org/TR/csv2json/",
+        "draft": "http://w3c.github.io/csvw/csv2json/",
+        "latest": "2015-12-17"
+      }
+    ]
+  }
+  , "w3c/web-annotation": {
+    "wgname": "Web Annotation",
+    , "recs": [
+      {
+        "name": "model",
+        "full": "Web Annotation Data Model",
+        "rec": "https://www.w3.org/TR/annotation-model/",
+        "draft": "http://w3c.github.io/web-annotation/",
+        "latest": "2017-02-21"
+      }
+      ,{
+        "name": "vocab",
+        "full": "Web Annotation Vocabulary",
+        "rec": "https://www.w3.org/TR/annotation-vocab/",
+        "draft": "http://w3c.github.io/web-annotation/",
+        "latest": "2017-02-21"
+      }
+      ,{
+        "name": "protocol",
+        "full": "Web Annotation Protocol",
+        "rec": "https://www.w3.org/TR/annotation-protocol/",
+        "draft": "http://w3c.github.io/web-annotation/protocol/wd/",
+        "latest": "2017-02-21"
+      }
+      ,{
+        "name": "selector note",
+        "full": "Selectors and States",
+        "rec": "https://www.w3.org/TR/selectors-states/",
+        "draft": "http://w3c.github.io/web-annotation/selectors/",
+        "latest": "2017-02-21"
+      }
+      ,{
+        "name": "html note",
+        "full": "Embedding Web Annotations in HTML",
+        "rec": "https://www.w3.org/TR/annotation-html/",
+        "draft": "http://w3c.github.io/web-annotation/serialization-html-note/",
+        "latest": "2017-02-21"
+      }
+    ]
+  }
+  , "w3c/poe": {
+    "wgname": "Permissions and Obligations Expression",
+    , "recs": [
+      {
+        "name": "Model",
+        "full": "ODRL Information Model",
+        "rec": "https://www.w3.org/TR/odrl-model/",
+        "draft": "https://w3c.github.io/poe/model/",
+        "latest": "2018-02-15"
+      }
+      ,{
+        "name": "Vocab",
+        "full": "ODRL Vocabulary &amp; Expression",
+        "rec": "https://www.w3.org/TR/odrl-vocab/",
+        "draft": "https://w3c.github.io/poe/vocab/",
+        "latest": "2018-02-15"
+      }
+    ]
+  }
 }

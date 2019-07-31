@@ -119,11 +119,21 @@ function findTargetLabel(repo, labels) {
   if (labels.length < 1) {return ''; }
   var match_label = '';
   labels.forEach(function(item) {
-    data_config[repo].forEach(function(repo_label) {
+    data_config[repo].recs.forEach(function(repo_label) {
       if (repo_label.name == item.name) {match_label = item.name; }
     });
   });
   return match_label;
+}
+
+function setViewWg(repo) {
+  if (data_config[repo]) {
+    displayListRecs(data_config[repo].recs);
+    document.getElementById('wgfullname').innerText = data_config[repo].wgname;
+    getIssuesPerRepo(repo);
+  } else {
+    throw Error('Defined target configuration not found: ' + repo);
+  }
 }
 
 window.addEventListener('load', function(event) {
@@ -134,12 +144,7 @@ window.addEventListener('load', function(event) {
     throw Error('Returned response for config' + response.status);
   }).then(function(json) {
     data_config = json;
-    if (data_config[target_repo]) {
-      displayListRecs(data_config[target_repo]);
-      getIssuesPerRepo(target_repo);
-    } else {
-      throw Error('Defined target configuration not found: ' + target_repo);
-    }
+    setViewWg(target_repo);
   }).catch(function(error) {
     console.log('Error found on loading configuration: ' + site_config + ' / ' + error.message);
   });

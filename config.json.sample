@@ -1,11 +1,14 @@
 {
-  "repository name, from w3c/ etc": [
-    {
-      "name": "label name for tracking specific rec",
-      "full": "full title of the rec",
-      "rec": "latest rec under /TR/",
-      "draft": "github link",
-      "latest": "latest publication date"
-    }
-  ]
+  "repository name, from w3c/ etc": {
+    "wgname": "Working Group full name",
+    , "recs": [
+      {
+        "name": "label name for tracking specific rec",
+        "full": "full title of the rec",
+        "rec": "latest rec under /TR/",
+        "draft": "github link",
+        "latest": "latest publication date"
+      }
+    ]
+  }
 }
