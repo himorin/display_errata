@@ -19,18 +19,10 @@
   </head>
   <body>
     <header>
-      <p class="banner"><a accesskey="W" href="/"><img width="72" height="48" alt="W3C" src="https://www.w3.org/Icons/w3c_home" /></a> </p>
-      <br />
-      <h1 class="title">Open Errata for the <span id="wgfullname"></span> Working Group</h1>
-      <dl>
-        <dt>Latest errata update:</dt>
-        <dd><span id="date"></span></dd>
-        <dt>Number of recorded errata:</dt>
-        <dd><span id="number"></span></dd>
-        <dt>Link to all errata:</dt>
-        <dd><span id="errata_link"></span></dd>
-      </dl>
-
+      <section>
+        <h1>List of tracked working groups</h1>
+        <ul id="repolist"></ul>
+      </section>
       <section data-notoc>
         <h1>How to Submit an Erratum?</h1>
         <p>Errata are introduced and stored in the <a href="https://github.com/w3c/csvw/issues/">issue list of the group‘s GitHub repository</a>. The workflow to add a new erratum is as follows:</p>
@@ -46,7 +38,19 @@
         <p>If you have problems following this process, but you want nevertheless to report an error, you can also contact the staff contact of the Working Group, <a href="mailto:ivanw3.org">Ivan Herman</a>.</p>
       </section>
     </header>
-
+    <div>
+      <p class="banner"><a accesskey="W" href="/"><img width="72" height="48" alt="W3C" src="https://www.w3.org/Icons/w3c_home" /></a> </p>
+      <br />
+      <h1 class="title">Open Errata for the <span id="wgfullname"></span> Working Group</h1>
+      <dl>
+        <dt>Latest errata update:</dt>
+        <dd><span id="date"></span></dd>
+        <dt>Number of recorded errata:</dt>
+        <dd><span id="number"></span></dd>
+        <dt>Link to all errata:</dt>
+        <dd><span id="errata_link"></span></dd>
+      </dl>
+    </div>
     <div class="toc" id="toc">
       <h2 id="toctitle" class="tocvisible">Table of content</h2>
       <ul class="toctoclebel2" id="toc_ul">

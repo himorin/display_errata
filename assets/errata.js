@@ -136,6 +136,19 @@ function setViewWg(repo) {
   }
 }
 
+function setListRepo(config) {
+  document.getElementById('repolist') = '';
+  Object.keys(config).forEach(function(key) {
+    var lidat = '';
+    lidat += '<li><a href="#" id="' + key.replace(/\//g, '_') + '">';
+    lidat += config[key].wgname;
+    lidat += '</a></li>';
+    document.getElementById('repolist').innerHTML += lidat;
+    document.getElementById(key.replace(/\//g, '_'))
+      .addEventListener('click', setViewWg(key));
+  });
+}
+
 window.addEventListener('load', function(event) {
   fetch(site_config, {
     cache: 'no-cache', method: 'GET', redirect: 'follow' })
@@ -144,7 +157,7 @@ window.addEventListener('load', function(event) {
     throw Error('Returned response for config' + response.status);
   }).then(function(json) {
     data_config = json;
-    setViewWg(target_repo);
+    setListRepo(data_config);
   }).catch(function(error) {
     console.log('Error found on loading configuration: ' + site_config + ' / ' + error.message);
   });
