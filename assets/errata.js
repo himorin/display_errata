@@ -144,8 +144,6 @@ function setListRepo(config) {
     lidat += config[key].wgname;
     lidat += '</a></li>';
     document.getElementById('repolist').innerHTML += lidat;
-    document.getElementById(key.replace(/\//g, '_'))
-      .addEventListener('click', setViewWg(key));
   });
 }
 
