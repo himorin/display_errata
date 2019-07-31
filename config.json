@@ -27,4 +27,57 @@
       "latest": "2015-12-17"
     }
   ]
+  , "w3c/web-annotation": [
+    {
+      "name": "model",
+      "full": "Web Annotation Data Model",
+      "rec": "https://www.w3.org/TR/annotation-model/",
+      "draft": "http://w3c.github.io/web-annotation/",
+      "latest": "2017-02-21"
+    }
+    ,{
+      "name": "vocab",
+      "full": "Web Annotation Vocabulary",
+      "rec": "https://www.w3.org/TR/annotation-vocab/",
+      "draft": "http://w3c.github.io/web-annotation/",
+      "latest": "2017-02-21"
+    }
+    ,{
+      "name": "protocol",
+      "full": "Web Annotation Protocol",
+      "rec": "https://www.w3.org/TR/annotation-protocol/",
+      "draft": "http://w3c.github.io/web-annotation/protocol/wd/",
+      "latest": "2017-02-21"
+    }
+    ,{
+      "name": "selector note",
+      "full": "Selectors and States",
+      "rec": "https://www.w3.org/TR/selectors-states/",
+      "draft": "http://w3c.github.io/web-annotation/selectors/",
+      "latest": "2017-02-21"
+    }
+    ,{
+      "name": "html note",
+      "full": "Embedding Web Annotations in HTML",
+      "rec": "https://www.w3.org/TR/annotation-html/",
+      "draft": "http://w3c.github.io/web-annotation/serialization-html-note/",
+      "latest": "2017-02-21"
+    }
+  ]
+  , "w3c/poe": [
+    {
+      "name": "Model",
+      "full": "ODRL Information Model",
+      "rec": "https://www.w3.org/TR/odrl-model/",
+      "draft": "https://w3c.github.io/poe/model/",
+      "latest": "2018-02-15"
+    }
+    ,{
+      "name": "Vocab",
+      "full": "ODRL Vocabulary &amp; Expression",
+      "rec": "https://www.w3.org/TR/odrl-vocab/",
+      "draft": "https://w3c.github.io/poe/vocab/",
+      "latest": "2018-02-15"
+    }
+  ]
 }
