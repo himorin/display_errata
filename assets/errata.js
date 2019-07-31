@@ -25,9 +25,6 @@ const github_api_orig = 'https://api.github.com/repos/';
 //const github_api_markdown = 'https://api.github.com/markdown';
 const github_api_markdown = 'https://ch03.himor.in/w3c/github-cache/w3c/markdown';
 
-// temporary
-const target_repo = "w3c/csvw";
-
 // defs of global variables
 let data_config; // from site_config
 let data_issues = {}; // acquired errata issue listfrom api
@@ -161,10 +158,10 @@ window.addEventListener('load', function(event) {
   });
 });
 
-var convert_md = async function(target_repo, target_id, body_text) {
+var convert_md = async function(repo, target_id, body_text) {
   fetch(github_api_markdown, {
     body: JSON.stringify({
-      "text": body_text, "mode": "gfm", "context": target_repo
+      "text": body_text, "mode": "gfm", "context": repo
     }),
     headers: new Headers({
       'Content-Type': 'application/json'
@@ -224,7 +221,7 @@ function render_issue(name, issue, comments) {
   });
   issue.label_list = labels.join(', ');
   if (! to_disp) {return; }
-  var output = issueToHtml(issue, comments);
+  var output = issueToHtml(name, issue, comments);
   if (! data_count['number_' + category + target]) {
     data_count['number_' + category + target] = 0;
   }
@@ -238,7 +235,7 @@ function render_issue(name, issue, comments) {
 };
 
 // build html from issue data
-function issueToHtml(issue, comments) {
+function issueToHtml(repo, issue, comments) {
   // check summary exists
   var summary = undefined;
   comments.forEach(function(comment) {
@@ -254,10 +251,10 @@ function issueToHtml(issue, comments) {
   result += '<span class="what">Extra Labels:</span> ' + issue.label_list + '</a><br>';
   result += '</p>';
   result += '<p><span class="what"><a href="' + issue.html_url + '">Initial description:</a></span></p><div id="issue_body_' + issue.number + '"></div>';
-  convert_md(target_repo, 'issue_body_' + issue.number, issue.body);
+  convert_md(repo, 'issue_body_' + issue.number, issue.body);
   if (summary !== undefined) {
     result += '<p><span class="what"><a href="' + summary.html_url + '">Erratum summary:</a></span></p><div id="issue_summary_' + issue.number + '"></div>';
-    convert_md(target_repo, 'issue_summary_' + issue.number, 
+    convert_md(repo, 'issue_summary_' + issue.number, 
       summary.body.substr("Summary:".length));
   }
   result += '</div>';
