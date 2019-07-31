@@ -137,7 +137,7 @@ function setViewWg(repo) {
 }
 
 function setListRepo(config) {
-  document.getElementById('repolist') = '';
+  document.getElementById('repolist').innerHTML = '';
   Object.keys(config).forEach(function(key) {
     var lidat = '';
     lidat += '<li><a href="#" id="' + key.replace(/\//g, '_') + '">';
