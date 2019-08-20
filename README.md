@@ -1,3 +1,39 @@
+# information
+
+* samples
+  * [WCAG 2.0 Errata](https://www.w3.org/WAI/WCAG20/errata/)
+  * [Errata in SPARQL 1.1](https://www.w3.org/2013/sparql-errata)
+  * [CSVW WG errata](https://www.w3.org/2013/csvw/errata/)
+  * [current errata summary email](https://lists.w3.org/Archives/Public/public-maintenance/2019Jan/0000.html)
+* internal links
+  * [maintenance ideas](https://lists.w3.org/Archives/Group/ab/2017AprJun/0249.html)
+  * [current proc](https://lists.w3.org/Archives/Member/chairs/2018JulSep/0031.html)
+  * [moving i18n to GH](https://pad.w3.org/p/spec-maintenance-to-gh)
+* references
+  * [monthly github updates](https://www.w3.org/2019/03/commits.html)
+
+## items to be prepared
+
+* tool (display_errata) to be in each archived repository
+  * gather errata and open issue information from github issues via API
+  * (Q) how much to be automated, like acquiring target information from w3c.json etc.
+  * content handling (errata description etc.) got from issues via API (md to html)
+    * use [markdown API](https://developer.github.com/v3/markdown/)
+  * github API rate limit...
+    * caching system at labs [pheme](https://github.com/w3c/pheme/)
+* periodically running tool for making summary of updates and todo
+  * list issues' activity per label?
+    * change category and procedures from [amended recommendation secrion (6.7.2) in Process](https://www.w3.org/2019/Process-20190301/#revised-rec)
+      * editorial changes: which are no tech review required nor no vote against to publish; apply appropriate changes and to be Edited Recommendation
+      * substantive changes: non-editorial without new feature, or voted against to publish; goto CR and publish as Edited Recommendation, or goto candidate Amended Recommendation and to be published as Amended Recommendation
+    * list of errata types from class of [change section (6.2.5) in Process](https://www.w3.org/2019/Process-20190301/#correction-classes)
+      * No change to text content (non-normative, example)
+      * Corrections that do not affect conformance - no resolve ambiguities
+      * Corrections that do not add new feature - affect conformance to the spec
+        * switch ones between conforming and non-conforming
+        * clearify conformance/non-conformance of ambiguity or under-specified whose conformance was unclear
+      * New feature (not target of errata)
+  * having link?
 
 # Using Github issues to handle errata in Recommendations
 
