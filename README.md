@@ -1,5 +1,7 @@
 # information
 
+Use [gh-page](https://himorin.github.io/display_errata/) for testing.
+
 * samples
   * [WCAG 2.0 Errata](https://www.w3.org/WAI/WCAG20/errata/)
   * [Errata in SPARQL 1.1](https://www.w3.org/2013/sparql-errata)
