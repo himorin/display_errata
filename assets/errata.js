@@ -148,6 +148,13 @@ function setListRepo(config) {
 }
 
 window.addEventListener('load', function(event) {
+  // list click event handlers
+  document.getElementById('repolist_help').addEventListener('click', 
+    function(event) {
+      document.querySelector('#content_description').style.display = 'block';
+      document.querySelector('#content_errata').style.display = 'none';
+    });
+  // load config and publish items
   fetch(site_config, {
     cache: 'no-cache', method: 'GET', redirect: 'follow' })
   .then(function(response) {
@@ -263,12 +270,5 @@ function issueToHtml(repo, issue, comments) {
   result += '</div>';
   return result;
 }
-
-// list click event handlers
-document.getElementById('repolist_help').addEventListener('click', 
-  function(event) {
-    document.querySelector('#content_description').style.display = 'block';
-    document.querySelector('#content_errata').style.display = 'none';
-  });
 
 
