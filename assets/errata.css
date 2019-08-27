@@ -1,3 +1,49 @@
+header#disp_header {
+  height: max(48px, 4rem);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+}
+header#disp_header span {
+  font-size: 2rem;
+  padding-top: 1rem;
+  margin-left: max(72px, 5rem);
+  vertical-align: top;
+  display: inline-block;
+}
+
+#disp_sidebar {
+  width: 15rem;
+  height: calc(100% - max(48px, 4rem) - 4rem);
+  position: fixed;
+  top: max(48px, 4rem);
+  left: 0;
+  background-color: white;
+  margin-top: 1rem;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.content {
+  padding-top: max(48px, 4rem);
+  padding-left: 15rem;
+  width: calc(100% - 15rem);
+}
+
+footer#disp_footer {
+  height: 4rem;
+  width: 100%;
+  position: fixed;
+  top: calc(100% - 4rem);
+  left: 0;
+  background-color: white;
+}
+
+
+/* -------- */
+
 div#toc a, section#toc a {
 	text-decoration: none;
 }
