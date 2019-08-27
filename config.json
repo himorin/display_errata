@@ -89,4 +89,16 @@
       }
     ]
   }
+  , "w3c/ttml1": {
+    "wgname": "Timed Text WG",
+    "specname": "Timed Text Markup Language 1",
+    "recs": [
+      {
+        "name": "TTML1",
+        "full": "Timed Text Markup Language 1",
+        "rec": "https://www.w3.org/TR/ttml1/",
+        "draft": "https://w3c.github.io/ttml1/",
+        "latest": "2013-09-24"
+      }
+    ]
 }

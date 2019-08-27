@@ -138,12 +138,20 @@ function setViewWg(repo) {
 function setListRepo(config) {
   document.getElementById('repolist').innerHTML = '';
   Object.keys(config).forEach(function(key) {
+    var li_insert = 'repolist';
+    var li_disp = config[key].wgname;
+    if ('specname' in config[key]) {
+      li_insert = config[key].wgname.replace(/ /g, '_');
+      li_disp = config[key].specname;
+      if (! document.getElementById(li_insert)) {
+        document.getElementById('repolist').innerHTML += 
+          '<li>' + config[key].wgname + '<ul id="' + li_insert + '"></ul></li>';
+      }
+    }
     var lidat = '';
     lidat += '<li><a href="#" id="' + key.replace(/\//g, '_') + '" ';
-    lidat += 'onclick="setViewWg(\'' + key + '\')">';
-    lidat += config[key].wgname;
-    lidat += '</a></li>';
-    document.getElementById('repolist').innerHTML += lidat;
+    lidat += 'onclick="setViewWg(\'' + key + '\')">' + li_disp + '</a></li>';
+    document.getElementById(li_insert).innerHTML += lidat;
   });
 }
 
