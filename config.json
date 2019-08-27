@@ -115,7 +115,7 @@
       }
     ]
   }
-  , "w3c/imsc1": {
+  , "w3c/imsc": {
     "wgname": "Timed Text WG",
     "specname": "TTML Profiles for Internet Media Subtitles and Captions 1.0.1",
     "recs": [
