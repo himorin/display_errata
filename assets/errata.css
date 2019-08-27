@@ -5,6 +5,7 @@ header#disp_header {
   top: 0;
   left: 0;
   background-color: white;
+  padding: 8px;
 }
 header#disp_header span {
   font-size: 2rem;
@@ -28,8 +29,10 @@ header#disp_header span {
 
 .content {
   padding-top: 48px; /* 48px from header#disp_header */
-  padding-left: 18rem; /* 18rem from #disp_sidebar */
-  width: calc(100% - 18rem);
+  padding-left: 19rem; /* 18rem + 1rem from #disp_sidebar */
+  width: calc(100% - 19rem);
+  padding-bottom: 4rem; /* 4rem from footer#disp_footer */
+  margin-bottom: 1rem;
 }
 
 footer#disp_footer {
@@ -78,7 +81,6 @@ body {
 	font-family: arial, helvetica, freesans, clean, sans-serif;
 	color:black;
 	line-height:1.4em;
-	padding: 2em 2em;
 }
 
 section section {
