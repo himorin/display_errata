@@ -102,4 +102,30 @@
       }
     ]
   }
+  , "w3c/ttml2": {
+    "wgname": "Timed Text WG",
+    "specname": "Timed Text Markup Language 2",
+    "recs": [
+      {
+        "name": "TTML2",
+        "full": "Timed Text Markup Language 2",
+        "rec": "https://www.w3.org/TR/ttml2/",
+        "draft": "https://w3c.github.io/ttml2/",
+        "latest": "2018-11-08"
+      }
+    ]
+  }
+  , "w3c/imsc1": {
+    "wgname": "Timed Text WG",
+    "specname": "TTML Profiles for Internet Media Subtitles and Captions 1.0.1",
+    "recs": [
+      {
+        "name": "IMSC1",
+        "full": "TTML Profiles for Internet Media Subtitles and Captions 1.0.1",
+        "rec": "https://www.w3.org/TR/ttml-imsc1.0.1/",
+        "draft": "https://w3c.github.io/imsc/imsc1/spec/ttml-ww-profiles.html",
+        "latest": "2018-04-24"
+      }
+    ]
+  }
 }
