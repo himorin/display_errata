@@ -1,5 +1,5 @@
 header#disp_header {
-  height: max(48px, 4rem);
+  height: 48px; /* better to be max(logo-height, 4-6rem) */
   width: 100%;
   position: fixed;
   top: 0;
@@ -9,27 +9,27 @@ header#disp_header {
 header#disp_header span {
   font-size: 2rem;
   padding-top: 1rem;
-  margin-left: max(72px, 5rem);
+  margin-left: 100px; /* better to be max(logo-width+, 10rem?) */
   vertical-align: top;
   display: inline-block;
 }
 
 #disp_sidebar {
-  width: 15rem;
-  height: calc(100% - max(48px, 4rem) - 4rem);
+  width: 18rem;
+  height: calc(100% - 48px - 4rem); /* 48px from header#disp_header */
   position: fixed;
-  top: max(48px, 4rem);
+  top: 48px; /* 48px from header#disp_header */
   left: 0;
   background-color: white;
   margin-top: 1rem;
-  padding-left: 2px;
-  padding-right: 2px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .content {
-  padding-top: max(48px, 4rem);
-  padding-left: 15rem;
-  width: calc(100% - 15rem);
+  padding-top: 48px; /* 48px from header#disp_header */
+  padding-left: 18rem; /* 18rem from #disp_sidebar */
+  width: calc(100% - 18rem);
 }
 
 footer#disp_footer {
@@ -39,8 +39,13 @@ footer#disp_footer {
   top: calc(100% - 4rem);
   left: 0;
   background-color: white;
+  border-top: 1px ridge #ccc;
+  font-size: 90%;
 }
 
+ul#repolist {
+  padding: 1.2rem;
+}
 
 /* -------- */
 
@@ -125,13 +130,6 @@ h1, h2, h3, h4, h5, h6
 	font-size: 1.4em;
 	color: #005a9c;
 	font-weight: normal;
-}
-
-footer
-{
-	margin-top: 2em;
-	border-top: 1px ridge #ccc;
-	font-size: 90%;
 }
 
 h1

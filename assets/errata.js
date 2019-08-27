@@ -124,6 +124,8 @@ function findTargetLabel(repo, labels) {
 }
 
 function setViewWg(repo) {
+  document.querySelector('#content_description').style.display = 'none';
+  document.querySelector('#content_errata').style.display = 'block';
   if (data_config[repo]) {
     displayListRecs(data_config[repo].recs);
     document.getElementById('wgfullname').innerText = data_config[repo].wgname;
@@ -261,4 +263,12 @@ function issueToHtml(repo, issue, comments) {
   result += '</div>';
   return result;
 }
+
+// list click event handlers
+document.getElementById('repolist_help').addEventListener('click', 
+  function(event) {
+    document.querySelector('#content_description').style.display = 'block';
+    document.querySelector('#content_errata').style.display = 'none';
+  });
+
 
