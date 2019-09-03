@@ -92,6 +92,7 @@
   , "w3c/ttml1": {
     "wgname": "Timed Text WG",
     "specname": "Timed Text Markup Language 1",
+    "label": "needs errata",
     "recs": [
       {
         "name": "TTML1",

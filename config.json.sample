@@ -2,6 +2,7 @@
   "repository name, from w3c/ etc": {
     "wgname": "Working Group full name, like CSVW or TTWG",
     "specname": "Specification name, if any, like TTML1 in TTWG",
+    "label": "label to track errata, case insensitive, default to Errata",
     , "recs": [
       {
         "name": "label name for tracking specific rec",

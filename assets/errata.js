@@ -29,7 +29,7 @@ const github_api_markdown = 'https://ch03.himor.in/w3c/github-cache/w3c/markdown
 let data_config; // from site_config
 let data_issues = {}; // acquired errata issue listfrom api
 let data_count = {}; // count of errata
-const def_search_errata = "/issues?state=open&labels=Errata";
+const def_search = "/issues?state=open&labels=";
 
 // convert from 'https://api.github.com/repos/' to github_api_head
 // better to be performed by integrated cache server
@@ -114,7 +114,9 @@ function setViewWg(repo) {
   if (data_config[repo]) {
     displayListRecs(data_config[repo].recs);
     document.getElementById('wgfullname').innerText = data_config[repo].wgname;
-    getIssuesPerRepo(repo);
+    var e_label = "Errata";
+    if (data_config[repo].label) {e_label = data_config[repo].label; }
+    getIssuesPerRepo(repo, e_label);
   } else {
     throw Error('Defined target configuration not found: ' + repo);
   }
@@ -181,8 +183,8 @@ var convert_md = async function(repo, target_id, body_text) {
   });
 };
 
-function getIssuesPerRepo(name) {
-  var url_api = github_api_head + name + def_search_errata;
+function getIssuesPerRepo(name, e_label) {
+  var url_api = github_api_head + name + def_search + e_label;
   data_count = {};
   // quick hack initialization
   document.getElementById('number').innerText = '0';
