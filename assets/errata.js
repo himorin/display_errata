@@ -217,7 +217,10 @@ function getIssuesPerRepo(name, e_label) {
         console.log('Error on loading comment for: ' + error.message);
       });
     });
-    document.getElementById('number').innerText = data_issues[name].size;
+    document.getElementById('number').innerHTML = 
+      data_issues[name].size
+      + '<span id="number_loading">(loading issue details)</span>';
+    data_count['total'] = 0;
     document.getElementById('date').innerText = 
       (! data_issues[name].latest_change) ? 'N/A' : 
       data_issues[name].latest_change.toDateString();
@@ -245,11 +248,15 @@ function render_issue(name, issue, comments) {
   var ctid = category + target;
   if (! data_count['number_' + ctid]) {data_count['number_' + ctid] = 0; }
   data_count['number_' + ctid] += 1;
+  data_count['total'] += 1;
   document.getElementById(ctid).insertAdjacentHTML('beforeend', output);
   // not so harmful for performance...
-  Object.keys(data_count).forEach(function(key) {
-    document.getElementById(key).innerText = '(' + data_count[key] + ')';
-  });
+  if (data_count['total'] == data_issues[name].size) {
+    Object.keys(data_count).forEach(function(key) {
+      document.getElementById(key).innerText = '(' + data_count[key] + ')';
+    });
+    document.getElementById('number_loading').innerHTML = '';
+  }
 };
 
 // build html from issue data
