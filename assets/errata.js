@@ -189,7 +189,8 @@ function getIssuesPerRepo(name, e_label) {
   // quick hack initialization
   document.getElementById('number').innerText = '0';
   document.getElementById('date').innerText = 'N/A';
-  document.getElementById('errata_link').innerHTML = '<a href="https://github.com/' + name + '/labels/Errata">https://github.com/' + name + '/labels/Errata</a>';
+  var gh_e_url = 'https://github.com/' + name + '/labels/' + e_label;
+  document.getElementById('errata_link').innerHTML = '<a href="' + gh_e_url + '">' + gh_e_url + '</a>';
   fetch(url_api)
   .then(function(response) {
     if (response.ok) {return response.json(); }
