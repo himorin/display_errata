@@ -219,7 +219,7 @@ function getIssuesPerRepo(name, e_label) {
     });
     document.getElementById('number').innerHTML = 
       data_issues[name].size
-      + (data_issues[name].size == 0) ? '' : ' <span>(loading details)</span>';
+      + ((data_issues[name].size == 0) ? '' : ' <span>(loading details)</span>');
     data_count['number'] = 0;
     document.getElementById('date').innerText = 
       (! data_issues[name].latest_change) ? 'N/A' : 
