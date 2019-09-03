@@ -218,7 +218,9 @@ function getIssuesPerRepo(name, e_label) {
       });
     });
     document.getElementById('number').innerText = data_issues[name].size;
-    document.getElementById('date').innerText = data_issues[name].latest_change.toDateString();
+    document.getElementById('date').innerText = 
+      (! data_issues[name].latest_change) ? 'N/A' : 
+      data_issues[name].latest_change.toDateString();
   }).catch(function(error) {
     console.log('Error found on loading errata: ' + error.message);
   });
