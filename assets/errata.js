@@ -60,7 +60,7 @@ function displayListRecs (config) {
     content += '<section id="editorial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.1">' + insert_id + '.1 </span>Editorial Errata</h2></section>';
     content += '<section id="substantial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.2">' + insert_id + '.2 </span>Substantial Errata</h2></section>';
     content += '</section>';
-    insert_sections.innerHTML += content;
+    insert_sections.insertAdjacentHTML('beforeend', content);
     // toc
     content = '';
     content += '<li>';
@@ -69,7 +69,7 @@ function displayListRecs (config) {
     content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a> <span id="number_editorial_' + label + '"></span></li>';
     content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a> <span id="number_substantial_' + label + '"></span></li>';
     content += '</ul></li>';
-    insert_toc.innerHTML += content;
+    insert_toc.insertAdjacentHTML('beforeend', content);
   });
   // add others
   var content;
@@ -82,7 +82,7 @@ function displayListRecs (config) {
   content += '<section id="editorial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.1">' + insert_id + '.1 </span>Editorial Errata</h2></section>';
   content += '<section id="substantial_' + label + '"><h2 class="headertoclevel2"><span id="id_' + insert_id + '.2">' + insert_id + '.2 </span>Substantial Errata</h2></section>';
   content += '</section>';
-  insert_sections.innerHTML += content;
+  insert_sections.insertAdjacentHTML('beforeend', content);
   // toc
   content = '';
   content += '<li>';
@@ -91,7 +91,7 @@ function displayListRecs (config) {
   content += '<li><span class="tocnumber">' + insert_id + '.1. </span><a href="#id_' + insert_id + '.1">Editorial Errata</a> <span id="number_editorial_others"></span></li>';
   content += '<li><span class="tocnumber">' + insert_id + '.2. </span><a href="#id_' + insert_id + '.2">Substantial Errata</a> <span id="number_substantial_others"></span></li>';
   content += '</ul></li>';
-  insert_toc.innerHTML += content;
+  insert_toc.insertAdjacentHTML('beforeend', content);
 }
 
 // find matching target rec document label from labels in repo
@@ -240,11 +240,10 @@ function render_issue(name, issue, comments) {
   issue.label_list = labels.join(', ');
 //  if (! to_disp) {return; }
   var output = issueToHtml(name, issue, comments);
-  if (! data_count['number_' + category + target]) {
-    data_count['number_' + category + target] = 0;
-  }
-  data_count['number_' + category + target] += 1;
-  document.getElementById(category + target).innerHTML += output;
+  var ctid = category + target;
+  if (! data_count['number_' + ctid]) {data_count['number_' + ctid] = 0; }
+  data_count['number_' + ctid] += 1;
+  document.getElementById(ctid).insertAdjacentHTML('beforeend', output);
   // not so harmful for performance...
   Object.keys(data_count).forEach(function(key) {
     document.getElementById(key).innerText = '(' + data_count[key] + ')';
