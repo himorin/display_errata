@@ -50,6 +50,9 @@ ul#repolist {
   padding: 1.2rem;
 }
 
+div.toc span.exists:before{ content: "("; }
+div.toc span.exists:after{ content: ")"; }
+
 /* -------- */
 
 div#toc a, section#toc a {

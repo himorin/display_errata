@@ -253,7 +253,8 @@ function render_issue(name, issue, comments) {
   // not so harmful for performance...
   if (data_count['number'] == data_issues[name].size) {
     Object.keys(data_count).forEach(function(key) {
-      document.getElementById(key).innerText = '(' + data_count[key] + ')';
+      document.getElementById(key).innerText = data_count[key];
+      document.getElementById(key).classList.add('exists');
     });
   }
 };
