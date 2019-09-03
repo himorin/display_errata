@@ -37,21 +37,6 @@ function switchApiHead(url) {
     return url.replace(github_api_orig, github_api_head);
 }
 
-// quick hack for proxy query issue
-function updateOverview(name, updated_at) {
-  if (! data_issues[name]) { data_issues[name] = {}; }
-  if (! data_issues[name].size) { data_issues[name].size = 0; }
-  data_issues[name].size += 1;
-  var cuat = new Date(updated_at);
-  if (! data_issues[name].latest_change) {
-    data_issues[name].latest_change = cuat;
-  } else if (data_issues[name].latest_change < cuat) {
-    data_issues[name].latest_change = cuat;
-  }
-  document.getElementById('number').innerText = data_issues[name].size;
-  document.getElementById('date').innerText = data_issues[name].latest_change.toDateString();
-}
-
 // construct display from config
 function displayListRecs (config) {
   var insert_sections = document.getElementById('rec_sections');
@@ -209,7 +194,15 @@ function getIssuesPerRepo(name) {
     throw Error('Errata issue list failed on ' + name + ' / ' + response.status);
   }).then(function(issues) {
     data_issues[name] = {};
+    data_issues[name].size = issues.length;
+    var cuat;
     issues.forEach(function(item) {
+      cuat = new Date(item.updated_at);
+      if (! data_issues[name].latest_change) {
+        data_issues[name].latest_change = cuat;
+      } else if (data_issues[name].latest_change < cuat) {
+        data_issues[name].latest_change = cuat;
+      }
       fetch(switchApiHead(item.comments_url))
       .then(function(response) {
         if (response.ok) {return response.json(); }
@@ -220,25 +213,28 @@ function getIssuesPerRepo(name) {
         console.log('Error on loading comment for: ' + error.message);
       });
     });
+    document.getElementById('number').innerText = data_issues[name].size;
+    document.getElementById('date').innerText = data_issues[name].latest_change.toDateString();
   }).catch(function(error) {
     console.log('Error found on loading errata: ' + error.message);
   });
 };
 
 // render single issue, issue = /issues/XXX, comments = /issues/XXX/comments
+// handling around to_disp is not reuiqred, proxy query option issue fixed
 function render_issue(name, issue, comments) {
   var target = findTargetLabel(name, issue.labels).replace(/ /g, '_');
   if (target == '') {target = 'others'; }
   var category = 'substantial_';
   var labels = [];
-  var to_disp = false;
+//  var to_disp = false;
   issue.labels.forEach(function(label) {
-    if (label.name == 'Editorial') {category = 'editorial_'; }
-    if (label.name == 'Errata') {to_disp = true; }
+    if (label.name.toLowerCase() == 'editorial') {category = 'editorial_'; }
+//    if (label.name == 'Errata') {to_disp = true; }
     labels.push(label.name);
   });
   issue.label_list = labels.join(', ');
-  if (! to_disp) {return; }
+//  if (! to_disp) {return; }
   var output = issueToHtml(name, issue, comments);
   if (! data_count['number_' + category + target]) {
     data_count['number_' + category + target] = 0;
@@ -246,7 +242,6 @@ function render_issue(name, issue, comments) {
   data_count['number_' + category + target] += 1;
   document.getElementById(category + target).innerHTML += output;
   // not so harmful for performance...
-  updateOverview(name, issue.updated_at);
   Object.keys(data_count).forEach(function(key) {
     document.getElementById(key).innerText = '(' + data_count[key] + ')';
   });
