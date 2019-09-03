@@ -131,14 +131,15 @@ function setListRepo(config) {
       li_insert = config[key].wgname.replace(/ /g, '_');
       li_disp = config[key].specname;
       if (! document.getElementById(li_insert)) {
-        document.getElementById('repolist').innerHTML += 
-          '<li>' + config[key].wgname + '<ul id="' + li_insert + '"></ul></li>';
+        document.getElementById('repolist').insertAdjacentHTML('beforeend',
+          '<li>' + config[key].wgname + '<ul id="' + li_insert + '"></ul></li>');
       }
     }
-    var lidat = '';
-    lidat += '<li><a href="#" id="' + key.replace(/\//g, '_') + '" ';
-    lidat += 'onclick="setViewWg(\'' + key + '\')">' + li_disp + '</a></li>';
-    document.getElementById(li_insert).innerHTML += lidat;
+    var liid = key.replace(/\//g, '_');
+    document.getElementById(li_insert).insertAdjacentHTML('beforeend', 
+      '<li><a href="#" id="' + liid + '">' + li_disp + '</a></li>');
+    document.getElementById(liid).addEventListener('click', function(event) {
+      setViewWg(this); }.bind(key));
   });
 }
 
