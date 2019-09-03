@@ -188,8 +188,8 @@ function getIssuesPerRepo(name, e_label) {
   var url_api = github_api_head + name + def_search + e_label;
   data_count = {};
   // quick hack initialization
-  document.getElementById('number').innerText = '0';
-  document.getElementById('date').innerText = 'N/A';
+  document.getElementById('number').innerText = '(loading)';
+  document.getElementById('date').innerText = '(loading)';
   var gh_e_url = 'https://github.com/' + name + '/labels/' + e_label;
   document.getElementById('errata_link').innerHTML = '<a href="' + gh_e_url + '">' + gh_e_url + '</a>';
   fetch(url_api)
